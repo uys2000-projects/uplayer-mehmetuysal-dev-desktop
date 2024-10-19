@@ -78,7 +78,9 @@ export default {
   },
   methods: {
     openImage(image: string) {
-
+      this.image = image
+      const dialog = document.querySelector("#modal") as HTMLDialogElement
+      dialog.show()
     },
     async loadPlaylist() {
       const playlist = (await window.fileSystemApi.readFileObject("playlist").catch(() => { })) as UPlayListItem[] | undefined;
