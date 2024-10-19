@@ -1,13 +1,13 @@
-import type { UPlayListItem } from '../types/playlist'
-import { defineStore } from 'pinia'
+import type { UPlayListItem } from "../types/playlist";
+import { defineStore } from "pinia";
 
-export const usePlaylistStore = defineStore('playlist', {
+export const usePlaylistStore = defineStore("playlist", {
   state() {
     return {
-      name: '',
-      group: '',
-      playlist: [] as UPlayListItem[]
-    }
+      name: "",
+      group: "all",
+      playlist: [] as UPlayListItem[],
+    };
   },
-  getters: {}
-})
+  getters: {},
+});

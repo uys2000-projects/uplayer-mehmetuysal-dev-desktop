@@ -1,22 +1,39 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from "electron";
+import { axios } from "./services/electron/isolated/axios";
+import { test } from "./services/electron/isolated/test";
 
-// Custom APIs for renderer
-const api = {}
+contextBridge.exposeInMainWorld("axios", axios);
+contextBridge.exposeInMainWorld("isolatedTest", test);
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
+contextBridge.exposeInMainWorld("electron", {
+  ping: () => ipcRenderer.invoke("ping"),
+});
+
+const electronAPI = {
+  setTitle: (title: string) => ipcRenderer.send("set-title", title),
+};
+contextBridge.exposeInMainWorld("electronAPI", electronAPI);
+
+const fileSystemApi = {
+  writeFile: (path: string, content: string) =>
+    ipcRenderer.invoke("write-file", path, content),
+  writeFileObject: (path: string, content: object) =>
+    ipcRenderer.invoke("write-file-object", path, content),
+  readFile: (path: string) => ipcRenderer.invoke("read-file", path),
+  readFileObject: (path: string) =>
+    ipcRenderer.invoke("read-file-object", path),
+};
+contextBridge.exposeInMainWorld("fileSystemApi", fileSystemApi);
+declare global {
+  interface Window {
+    axios: typeof axios;
+    isolatedTest: typeof test;
+    electronAPI: typeof electronAPI;
+    fileSystemApi: {
+      writeFile: (path: string, content: string) => Promise<void>;
+      writeFileObject: (path: string, content: string) => Promise<void>;
+      readFile: (path: string) => Promise<string>;
+      readFileObject: <T extends object>(path: string) => Promise<T>;
+    };
   }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
 }

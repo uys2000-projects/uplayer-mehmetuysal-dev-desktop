@@ -1,9 +1,9 @@
 {
-  "name": "electron",
-  "version": "1.0.0",
-  "description": "An Electron application with Vue and TypeScript",
+  "name": "uplayer",
+  "version": "2.0.0",
+  "description": "UPlayer: Free Web Based IPTV Player",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "Mehmet Uysal (Uys2000) <hi@mehmetuysal.dev>",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -13,7 +13,7 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "npm run typecheck && electron-vite build",
+    "build": "electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
@@ -23,9 +23,16 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "axios": "^1.7.7",
+    "clusterize.js": "^1.0.0",
     "electron-updater": "^6.1.7",
+    "firebase": "^10.14.1",
+    "iptv-playlist-parser": "^0.13.0",
+    "mpegts.js": "^1.7.3",
     "pinia": "^2.2.4",
+    "sqids": "^0.3.0",
     "u-logger": "https://github.com/uys2000-projects/ULogger",
+    "video.js": "^8.18.1",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
@@ -35,7 +42,7 @@
     "@rushstack/eslint-patch": "^1.10.3",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^20.14.8",
-    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitejs/plugin-vue": "^5.1.4",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "autoprefixer": "^10.4.20",

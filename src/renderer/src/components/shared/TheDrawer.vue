@@ -5,8 +5,14 @@
       <li>
         <RouterLink :to="{ name: 'HomeView' }" class="btn btn-neutral">UPlayer</RouterLink>
       </li>
+      <li>
+        <RouterLink :to="{ name: 'ListView' }" class="btn btn-neutral">Play List</RouterLink>
+      </li>
       <li class="mt-auto">
         <RouterLink :to="{ name: 'AboutView' }" class="btn btn-neutral">About</RouterLink>
+      </li>
+      <li>
+        <RouterLink :to="{ name: 'SettingsView' }" class="btn btn-neutral">Settings</RouterLink>
       </li>
     </ul>
   </div>
