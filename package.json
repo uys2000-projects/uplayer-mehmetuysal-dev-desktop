@@ -1,6 +1,6 @@
 {
   "name": "uplayer",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "UPlayer: Free Web Based IPTV Player",
   "main": "./out/main/index.js",
   "author": "Mehmet Uysal (Uys2000) <hi@mehmetuysal.dev>",
