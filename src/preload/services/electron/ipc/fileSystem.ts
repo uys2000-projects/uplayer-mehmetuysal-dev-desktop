@@ -24,7 +24,6 @@ export type writeFileObject = (
 ) => Promise<boolean>;
 export const writeFileObject: writeFileObject = async (path, content) => {
   const [fs, basePath] = await getBase();
-  console.log("test");
   return new Promise<boolean>((resolve, reject) => {
     fs.writeFile(basePath + path, JSON.stringify(content), (err) => {
       if (err) return reject(err);

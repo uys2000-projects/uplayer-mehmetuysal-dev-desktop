@@ -13,7 +13,11 @@ asarUnpack:
   - resources/**
 win:
   executableName: uplayer
+  icon: resources/icon.png
 nsis:
+  installerHeaderIcon: resources/icon.ico
+  installerIcon: resources/icon.ico
+  uninstallerIcon: resources/icon.ico
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
@@ -25,6 +29,7 @@ linux:
     - snap
   maintainer: mehmetuysal.dev
   category: Entertainment
+  icon: resources/icon.png
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false

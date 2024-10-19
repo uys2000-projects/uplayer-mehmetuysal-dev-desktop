@@ -1,7 +1,6 @@
 import type { AxiosRequestConfig } from "axios";
 
 const get = async (url: string, data?: object) => {
-  console.log("test");
   const axios = require("axios");
   return axios.get(url, data);
 };
