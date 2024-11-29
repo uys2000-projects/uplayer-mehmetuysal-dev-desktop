@@ -15,6 +15,9 @@ win:
   executableName: uplayer
   icon: resources/icon.png
 nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
   installerHeaderIcon: resources/icon.ico
   installerIcon: resources/icon.ico
   uninstallerIcon: resources/icon.ico

@@ -5,7 +5,7 @@
         <LivePlayer :src="url" />
       </template>
       <template v-else>
-        <Player :src="url" @error="() => isChannel = true" />
+        <Player :src="url" @error="() => isChannel = true" :live="url.toLocaleLowerCase().includes('m3u8')" />
       </template>
     </template>
   </div>

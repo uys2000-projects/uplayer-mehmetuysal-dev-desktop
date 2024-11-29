@@ -1,10 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain } from "electron";
+import { app, shell, BrowserWindow, ipcMain, session } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import { loadFileSystem } from "../preload/services/electron/ipc/fileSystem";
 import { loadElectronApi } from "../preload/services/electron/ipc/electron";
-
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -14,6 +13,7 @@ function createWindow(): void {
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
+      webSecurity: false,
       contextIsolation: true,
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,
