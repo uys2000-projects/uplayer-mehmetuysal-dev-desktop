@@ -15,19 +15,32 @@
                 <input type="text" class="grow h-full" placeholder="https://url.com/" v-model="url" />
               </div>
               <div class="indicator">
-                <button class="btn join-item" @click="getUrl">Get</button>
+                <button class="btn join-item tooltip tooltip-left" @click="getUrl"
+                  data-tip="To access playlist you should load Playlist, there is no auto update you should periodically press this button.">Load
+                  Playlist</button>
               </div>
             </div>
           </div>
           <div>
-            <span>Easy Access Code</span>
+            <span>Easy Access Code (For Playlist URL Sharing)
+              <div class="tooltip tooltip-bottom"
+                data-tip="You can create short access codes to your playlist url. (You should remove it after usage to protect your url)">
+                <span class="material-symbols-outlined text-xs mb-auto cursor-pointer select-none">
+                  help
+                </span>
+              </div>
+            </span>
             <div class="join w-full items-center">
               <div class="input input-bordered w-full flex items-center gap-2 join-item min-w-16">
                 <input type="text" class="grow h-full min-w-0" placeholder="" v-model="code" />
               </div>
-              <button class="btn join-item" @click="createAccessCode">Create</button>
-              <button class="btn join-item" @click="getAccessCode">Get</button>
-              <button class="btn join-item" @click="deleteAccessCode">Remove</button>
+              <button class="btn join-item tooltip tooltip-left" data-tip="You can create access code to Playlist URL"
+                @click="createAccessCode">Create</button>
+              <button class="btn join-item tooltip tooltip-left"
+                data-tip="You can access your Playlist URL with access code" @click="getAccessCode">Get</button>
+              <button class="btn join-item tooltip tooltip-left"
+                data-tip="You can remove your access code to protect your Playlist URL"
+                @click="deleteAccessCode">Remove</button>
             </div>
           </div>
         </div>
@@ -87,20 +100,32 @@ export default {
       localStorage.setItem("code", this.code)
     },
     async getAccessCode() {
+      if (!this.code) return
       localStorage.setItem("code", this.code)
       const urlRef = await getDocument.uLog(ACCESSCODE, this.code)
       console.log(urlRef.exists())
-      if (urlRef.exists()) this.url = urlRef.data().url
+      if (urlRef.exists()) {
+        this.url = urlRef.data().url
+        localStorage.setItem("url", urlRef.data().url)
+
+      }
     },
     async deleteAccessCode() {
+      if (!this.code) return
       await deleteDocument.uLog(ACCESSCODE, this.code)
       localStorage.removeItem("code")
       this.code = ""
     }
   },
-  async beforeMount() {
-    const [url, code] = [localStorage.getItem("url"), localStorage.getItem("code")]
-    console.log(url, code)
+  async mounted() {
+    let [url, code] = [localStorage.getItem("url"), localStorage.getItem("code")]
+    if (code) {
+      const urlRef = await getDocument.uLog(ACCESSCODE, code)
+      if (!urlRef.exists()) {
+        code = ""
+        localStorage.removeItem("code")
+      }
+    }
     this.url = url || ""
     this.code = code || ""
   }
