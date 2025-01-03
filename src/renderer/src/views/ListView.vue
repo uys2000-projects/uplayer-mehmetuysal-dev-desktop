@@ -112,8 +112,7 @@ export default {
   mounted() {
     this.searchName = this.playlistStore.name
     this.searchGroup = this.playlistStore.group
-    if (this.playlistStore.playlist.length == 0) this.loadPlaylist();
-    else this.playlist = this.playlistStore.playlist
+    this.loadPlaylist();
     this.onFilterChange()
   },
   beforeUnmount() {

@@ -1,30 +1,31 @@
 <template>
-  <div class="h-page w-full">
+  <div class="h-page w-full player-wrapper">
     <template v-if="loaded">
-      <template v-if="isChannel">
-        <LivePlayer :src="url" />
+      <template v-if="useVideoJs">
+        <VPlayer :src="url" :live="isChannel" @change="useVideoJs = false" />
       </template>
       <template v-else>
-        <Player :src="url" @error="() => isChannel = true" :live="url.toLocaleLowerCase().includes('m3u8')" />
+        <MPlayer :src="url" :live="isChannel" @change="useVideoJs = true" />
       </template>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import LivePlayer from '../components/shared/LivePlayer.vue';
-import Player from '../components/shared/Player.vue';
+import MPlayer from '../components/shared/MPlayer.vue';
+import VPlayer from '../components/shared/VPlayer.vue';
 
 import { usePlaylistStore } from '../stores/playlist';
 import { filterBatcher } from '../services/batcher';
 import { UPlayListItem } from '../types/playlist';
 
 export default {
-  components: { LivePlayer, Player },
+  components: { VPlayer, MPlayer },
   data() {
     return {
       playlistStore: usePlaylistStore(),
-      isChannel: undefined as undefined | boolean,
+      isChannel: false,
+      useVideoJs: true,
       url: "",
       loaded: false
     }
@@ -53,3 +54,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.player-wrapper:has(video:where(:target, :active, :hover)) .btn,
+.btn:hover {
+  display: inline-flex;
+}
+</style>

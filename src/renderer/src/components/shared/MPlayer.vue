@@ -1,5 +1,9 @@
 <template>
-  <div class="h-page w-full">
+  <div class="h-page w-full relative">
+    <div class="btn btn-primary absolute top-1 right-1 rounded-box p-2 cursor-pointer z-10 hidden"
+      @click="changePlayer">
+      Use HTML5 Video Player
+    </div>
     <video id="player" class="h-full w-full" controls></video>
   </div>
 </template>
@@ -23,15 +27,23 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    live: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
+    changePlayer() {
+      this.destroyPlayer()
+      this.$emit("change")
+    },
     createPlayer() {
       if (Mpegts.getFeatureList().mseLivePlayback && this.src) {
         const videElement = document.getElementById("player") as HTMLVideoElement
         this.player = Mpegts.createPlayer({
           type: type,
-          isLive: true,
+          isLive: this.live,
           url: this.src,
         });
         this.player.attachMediaElement(videElement);
@@ -41,9 +53,7 @@ export default {
     },
     destroyPlayer() {
       if (this.player) {
-        this.player.pause();
         this.player.unload();
-        this.player.destroy();
       }
     }
   },
